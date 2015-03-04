@@ -1,0 +1,8 @@
+build
+build_*
+*/target
+riscoss-platform
+riscoss-platform-core
+riscoss-wiki-ui
+riscoss-analyser
+RiscossAnalysisEngine

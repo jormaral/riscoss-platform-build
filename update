@@ -1,0 +1,21 @@
+#!/bin/bash
+die() { echo $1; exit 1; }
+
+git checkout master && git pull || die "failed to pull main repo"
+
+[ -e './riscoss-platform-core/.git' ] || rm -rf ./riscoss-platform-core/ 2>/dev/null;
+[ -e './riscoss-analyser/.git' ] || rm -rf ./riscoss-analyser/ 2>/dev/null;
+[ -e './riscoss-wiki-ui/.git' ] || rm -rf ./riscoss-wiki-ui/ 2>/dev/null;
+[ -e './RiscossAnalysisEngine/.git' ] || rm -rf ./RiscossAnalysisEngine/ 2>/dev/null;
+
+[ -e './riscoss-platform-core/' ] || git clone git://github.com/riscoss/riscoss-platform-core.git;
+( cd riscoss-platform-core && git checkout master && git pull || die "failed to pull riscoss-platform-core subrepo" )
+
+[ -e './riscoss-analyser/' ] || git clone git://github.com/riscoss/riscoss-analyser.git;
+( cd riscoss-analyser && git checkout master && git pull || die "failed to pull riscoss-analyser subrepo" )
+
+[ -e './riscoss-wiki-ui/' ] || git clone git://github.com/riscoss/riscoss-wiki-ui.git;
+( cd riscoss-wiki-ui && git checkout master && git pull || die "failed to pull riscoss-wiki-ui subrepo" )
+
+[ -e './RiscossAnalysisEngine/' ] || git clone git://github.com/riscoss/RiscossAnalysisEngine.git;
+( cd RiscossAnalysisEngine && git checkout master && git pull || die "failed to pull RiscossAnalysisEngine subrepo" )
