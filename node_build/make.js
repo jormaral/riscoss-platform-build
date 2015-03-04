@@ -125,6 +125,7 @@ var main = function () {
     }).nThen(function (waitFor) {
         bash('cd riscoss-platform-core && mvn install', waitFor(throwIfRet));
         bash([
+            'mkdir build',
             'cd build',
             'mkdir collectors',
             'tar -xf ../resources/apache-tomcat*'
