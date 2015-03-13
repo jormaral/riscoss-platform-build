@@ -131,6 +131,10 @@ var main = function () {
             'tar -xf ../resources/apache-tomcat*'
         ].join(' && '), waitFor(throwIfRet));
     }).nThen(function (waitFor) {
+        XWiki.Package.fromDirTree('./riscoss-wiki-config/src/', waitFor(function (pkg) {
+            pkg.genXar('./build/riscoss-wiki-config.xar', waitFor());
+        }));
+    }).nThen(function (waitFor) {
         XWiki.Package.fromDirTree('./riscoss-wiki-ui/src/', waitFor(function (pkg) {
             pkg.genXar('./build/riscoss-wiki-ui.xar', waitFor());
         }));

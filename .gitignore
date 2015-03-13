@@ -4,5 +4,6 @@ build_*
 riscoss-platform
 riscoss-platform-core
 riscoss-wiki-ui
+riscoss-wiki-config
 riscoss-analyser
 RiscossAnalysisEngine
