@@ -1,4 +1,4 @@
-# Riscoss Platform Easy-Build
+# RISCOSS Platform Easy-Build
 
 This is the easiest way to get a finished development build of the RISCOSS platform on Unix.
 
