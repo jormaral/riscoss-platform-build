@@ -21,6 +21,9 @@ var WIKI_XAR = './riscoss-platform-core/riscoss-platform-dm/riscoss-platform-dm-
 var ANALYSER = './riscoss-analyser/riscoss-remote-risk-analyser/target/' +
     'riscoss-remote-risk-analyser-*-jar-with-dependencies.jar';
 
+var EVALUATOR_DEST = './riscoss-wiki-ui/src/xwiki/RISCOSSPlatformAnalysers/' +
+    'LogicAnalyser/attachments/';
+
 var NOFUNC = function () { };
 
 var now = function () { return (new Date()).getTime(); };
@@ -131,6 +134,11 @@ var main = function () {
             'tar -xf ../resources/apache-tomcat*'
         ].join(' && '), waitFor(throwIfRet));
     }).nThen(function (waitFor) {
+        bash('cd riscoss-analyser && mvn install', waitFor(throwIfRet));
+    }).nThen(function (waitFor) {
+        bash('mkdir -p ' + EVALUATOR_DEST + ' && ' +
+             'mv ' + ANALYSER + ' ' + EVALUATOR_DEST + '/analyser.jar', waitFor(throwIfRet));
+    }).nThen(function (waitFor) {
         XWiki.Package.fromDirTree('./riscoss-wiki-config/src/', waitFor(function (pkg) {
             pkg.genXar('./build/riscoss-wiki-config.xar', waitFor());
         }));
@@ -139,7 +147,6 @@ var main = function () {
             pkg.genXar('./build/riscoss-wiki-ui.xar', waitFor());
         }));
     }).nThen(function (waitFor) {
-        //bash('mv ' + ANALYSER + ' ./build/riscoss-remote-risk-analyser.jar', waitFor());
         bash('mv ' + DMOUT + ' ./build', waitFor());
         bash('mv ' + RDROUT + ' ./build', waitFor());
         bash('mv ' + MAINWIKI_XAR + ' ./build', waitFor());
