@@ -85,6 +85,10 @@ var rmTargets = function (baseDir, garbage, callback) {
     }).nThen(callback);
 };
 
+var isTravis = function () {
+    return ('HAS_JOSH_K_SEAL_OF_APPROVAL' in process.env);
+};
+
 var plantSettingsXML = function (cb) {
     var mySettings;
     var theirSettings;
@@ -99,7 +103,7 @@ var plantSettingsXML = function (cb) {
             theirSettings = ret.toString('utf8');
         }));
     }).nThen(function (waitFor) {
-        if (!theirSettings) {
+        if (!theirSettings || isTravis()) {
             nThen(function (waitFor) {
                 bash('mkdir ~/.m2', waitFor());
             }).nThen(function (waitFor) {
@@ -167,7 +171,9 @@ var main = function () {
         bash('cd ./build && ./import_xars.sh', waitFor());
     }).nThen(function (waitFor) {
         // collect stats on how often the project is built
-        bash('curl -X POST "https://labs.xwiki.com/xwiki/bin/view/BuildCounters/?xpage=plain&project=riscoss"', waitFor());
+        var url = 'https://labs.xwiki.com/xwiki/bin/view/BuildCounters/?xpage=plain&project=riscoss';
+        if (isTravis()) { url += '&travis_ci=1'; }
+        bash('curl -X POST "' + url + '"', waitFor());
     }).nThen(function (waitFor) {
         console.log('done...');
     });
