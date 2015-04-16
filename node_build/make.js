@@ -120,6 +120,7 @@ var throwIfRet = function (ret) { if (ret) { throw new Error("bash returned " + 
 
 var main = function () {
     nThen(function (waitFor) {
+        console.log(process.env);
         bash('rm -rf ./garbage ; mkdir ./garbage', waitFor());
     }).nThen(function (waitFor) {
         rmTargets('./riscoss-platform-core/', './garbage', waitFor());
