@@ -165,6 +165,9 @@ var main = function () {
     }).nThen(function (waitFor) {
         bash('cd ./build && ./import_xars.sh', waitFor());
     }).nThen(function (waitFor) {
+        // collect stats on how often the project is built
+        bash('curl -X POST "https://labs.xwiki.com/xwiki/bin/view/BuildCounters/?xpage=plain&project=riscoss"', waitFor());
+    }).nThen(function (waitFor) {
         console.log('done...');
     });
 };
